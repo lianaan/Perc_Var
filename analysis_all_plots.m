@@ -169,17 +169,15 @@ rt_tau = exp(squeeze(RT_pars_fit(:,1,1:4,3)));
 rt_iqr = squeeze(rt_med_iqr(:,:,3) - rt_med_iqr(:,:,1));
 
 
-%% RT plots
+%% RT plot
 
 fig_ind = 3;
 plot_TIMO_RT(fig_ind,ind_ctrl, ind_adhd, irrel_buttons, rt_med_iqr, rt_tau, rt_distrib)
 
-%% param plot fig
+%% param plot 
 
 fig_ind = 4;
 plot_params(fig_ind,ind_ctrl, ind_adhd,param, all_stims)
-
-
 
 
 
@@ -193,11 +191,11 @@ if supp_plots
     % RT ex Gaussian other parameters 
     fig_ind = 13;
     plot_exGauss_params(fig_ind,ind_ctrl, ind_adhd,RT_pars_fit)
-    %%
+    
     % RT model comparison 
     fig_ind = 14;
     plot_RT_model_comp(fig_ind,curr_dir, rt_distrib)
-    %%
+    
     % RT iqr 
     fig_ind = 15;
     plot_RT_iqr(fig_ind, ind_ctrl, ind_adhd, rt_iqr)
@@ -241,7 +239,7 @@ data_all(:,6) = exp(data_all(:,6));
 %same for ACDS
 data_all(:,7) = exp(data_all(:,7));
 
-%% logistic regression
+%% logistic regression classifier fig
 
 diag = [alldata(1:40).diagnosis]';
 
@@ -308,13 +306,13 @@ two_way_mixed_design_anova(vals)
 
 for pi  = 1:3
     
-    vals = squeeze(RT_pars_fit(:,1,1:4,pi)); % already logged
+    vals = squeeze(RT_pars_fit(:,1,1:4,pi)); 
     
     three_way_mixed_design_anova(vals)
 end
 
 
-%%  5D regression, GEC
+%%  5D regression, GEC - these coefficients not visible since clinical data is not public
 y = GEC';
 X = log(data_all(:,1:5));
 
@@ -333,6 +331,9 @@ y2 = ACDS';
 
 tbl2 = table(X(:,1),X(:,2),X(:,3), X(:,4),X(:,5),y2,'VariableNames',{'TIMO', 'RT','RTtau','Sigmas', 'lapse','ACDS'});
 lm2 = fitlm(tbl2,'ACDS~TIMO + RT + RTtau + Sigmas + lapse')
+
+
+
 
 
 
