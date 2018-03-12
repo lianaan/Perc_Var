@@ -21,3 +21,4 @@ The experiment code yields '.mat' files containing 'data', 'settings' and Psybay
 ##  Scripts
 
 * `analysis_all_plots.m` takes in `alldata.mat` and the psychometric curve parameters `params_all.mat`, calls the plotting functions from `data_analysis_and_plots` and return the figures in the manuscript. 
+* The psychometric curve parameters in `params_all.mat` are the output of `psych_curves_pars_fit.m`, and other functions from `model_fitting`. `psych_curves_pars_fit.m` uses a grid search to maximize the loglikelihood, which is computationally intensive, so it was run on the NYU HPC cluster. 
