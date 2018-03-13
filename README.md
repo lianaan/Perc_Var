@@ -6,7 +6,7 @@
 
 ## Data format
 
-The experiment code yields '.mat' files containing 'data', 'settings' and Psybayes output 'post' and 'outputs', which are processed with the script `analysis_raw.m`, which combines the data across all participants into `alldata.mat`.
+The experiment code yields '.mat' files containing 'data', 'settings' and the  [Psybayes](https://github.com/lacerbi/psybayes) output 'post' and 'outputs', which are processed with the script `analysis_raw.m` and combined into `alldata.mat`.
   
  The last fields represent structs with all the trials in each of the 4 possible conditions (each itself a struct):
  
