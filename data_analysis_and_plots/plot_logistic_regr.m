@@ -177,8 +177,8 @@ for regr_i = 1 : length(regr_ind)
     axis equal
     if regr_i == length(regr_ind)
         plot([0 1],[0 1],'--','Color',[0.5 0.5 0.5]); hold on;
-        xlabel('false-alarm rate','FontName', 'Helvetica','FontSize',fontsz)
-        ylabel('hit rate','FontName', 'Helvetica','FontSize',fontsz)
+        xlabel('False-alarm rate','FontName', 'Helvetica','FontSize',fontsz)
+        ylabel('Hit rate','FontName', 'Helvetica','FontSize',fontsz)
         box off
     end
     axis equal
