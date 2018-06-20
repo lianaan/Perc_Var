@@ -8,7 +8,7 @@ rec_sum_ind = find(rec_sum > 0);
 ind_ctrl_rec = rec_sum_ind(rec_sum_ind<=20);
 ind_adhd_rec = rec_sum_ind(rec_sum_ind>20);
 
-TIMO_m_ctrl=median(irrel_buttons(ind_ctrl,:),1);
+TIMO_m_ctrl=median(TIMO(ind_ctrl,:),1);
 TIMO_m_adhd=median(TIMO(ind_adhd,:),1);
 
 % further characterization of responses
