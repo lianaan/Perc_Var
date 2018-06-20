@@ -306,6 +306,7 @@ end
 
 
 %%  5D regression, GEC - these coefficients not visible since clinical data is not public
+%{
 y = GEC';
 X = log(data_all(:,1:5));
 
@@ -324,7 +325,7 @@ y2 = ACDS';
 
 tbl2 = table(X(:,1),X(:,2),X(:,3), X(:,4),X(:,5),y2,'VariableNames',{'TIMO', 'RT','RTtau','Sigmas', 'lapse','ACDS'});
 lm2 = fitlm(tbl2,'ACDS~TIMO + RT + RTtau + Sigmas + lapse')
-
+%}
 
 
 
