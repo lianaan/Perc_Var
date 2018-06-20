@@ -17,7 +17,7 @@ param(1:40,1:4,3) = squeeze(params(1:40,mi,3,1:4));
 curr_dir = pwd;
 cd([curr_dir, '/data_analysis_and_plots/'])
 
-supp_plots = 1;%1;
+supp_plots = 1;
 
 
 Nsbj = length(alldata);
@@ -94,9 +94,9 @@ for par = 1:length(alldata)
         prop_corr_left(par,cond) = sum(space_cond == 2 & ind_corr == 1)/sum(space_cond == 2);
         
         
-        %Task-irrelevant motor output
+        % Task-irrelevant motor output
         
-        irrel_buttons(par,cond) = sum(isnan(resp_cond))/ length(resp_cond);
+        TIMO(par,cond) = sum(isnan(resp_cond))/ length(resp_cond);
         
         resp_types_all(par, cond,1) = sum(ind_corr)/length(resp_cond);
         resp_types_all(par, cond,2) = sum(ind_incorr)/length(resp_cond);
@@ -104,18 +104,18 @@ for par = 1:length(alldata)
             resp_types_all(par, cond, cr) = sum(resp_types_cond == cr)/length(resp_cond);
         end
         
-        irrel_buttons_div(par,cond,1) = sum(isnan(resp_cond) & delta_space == 0 & delta_feature ==0)/length(resp_cond);
-        irrel_buttons_div(par,cond,2) = sum(isnan(resp_cond) & delta_space == 1 & delta_feature ==0)/length(resp_cond);
-        irrel_buttons_div(par,cond,3) = sum(isnan(resp_cond) & delta_space == 0 & delta_feature ==1)/length(resp_cond);
-        irrel_buttons_div(par,cond,4) = sum(isnan(resp_cond) & delta_space == 1 & delta_feature ==1)/length(resp_cond);
+        TIMO_div(par,cond,1) = sum(isnan(resp_cond) & delta_space == 0 & delta_feature ==0)/length(resp_cond);
+        TIMO_div(par,cond,2) = sum(isnan(resp_cond) & delta_space == 1 & delta_feature ==0)/length(resp_cond);
+        TIMO_div(par,cond,3) = sum(isnan(resp_cond) & delta_space == 0 & delta_feature ==1)/length(resp_cond);
+        TIMO_div(par,cond,4) = sum(isnan(resp_cond) & delta_space == 1 & delta_feature ==1)/length(resp_cond);
         
         
-        %Reaction times
+        % Reaction times
         
         rt_med_iqr(par,cond,:) = [quantile(rt_cond,0.25) median(rt_cond)  quantile(rt_cond,0.75)];
         rt_distrib_corr_temp = [rt_distrib_corr_temp; rt_cond(ind_corr)];
         
-        %fit all RT distributions : exGauss, gamma and log Normal
+        % fit all RT distributions : ex-Gauss, Gamma and log Normal
         
         for rmi = 1:3
             [RT_pars_fit(par,rmi,cond,1:leng(rmi)), RT_nll(par,rmi,cond)] = RT_models_fit(rmi,rt_cond);
@@ -150,15 +150,10 @@ for par = 1:length(alldata)
         all_stims=[all_stims; stims_cond];
     end
     
-    %rt_distrib_corr(par,1:length(rt_distrib_corr_temp)) = rt_distrib_corr_temp;
-    %[f_corr,x_corr] = ecdf(rt_distrib_corr(par,:));
-    
-    
     
 end
 cd ..
 cd([curr_dir, '/data_analysis_and_plots/'])
-
 
 
 
@@ -172,7 +167,7 @@ rt_iqr = squeeze(rt_med_iqr(:,:,3) - rt_med_iqr(:,:,1));
 %% RT plot
 
 fig_ind = 3;
-plot_TIMO_RT(fig_ind,ind_ctrl, ind_adhd, irrel_buttons, rt_med_iqr, rt_tau, rt_distrib)
+plot_TIMO_RT(fig_ind,ind_ctrl, ind_adhd, TIMO, rt_med_iqr, rt_tau, rt_distrib)
 
 %% param plot 
 
@@ -184,11 +179,11 @@ plot_params(fig_ind,ind_ctrl, ind_adhd,param, all_stims)
 if supp_plots
     %TIMO further info
     fig_ind = 12;
-    plot_TIMO_Supp(fig_ind, rec_par,ind_ctrl, ind_adhd, resp_types_all,irrel_buttons, irrel_buttons_div)
+    plot_TIMO_Supp(fig_ind, rec_par,ind_ctrl, ind_adhd, resp_types_all,TIMO, TIMO_div)
     %psname(fig_ind) = ...
     %print_pdf(psname(fig_ind))
     
-    % RT ex Gaussian other parameters 
+    % RT ex-Gaussian other parameters 
     fig_ind = 13;
     plot_exGauss_params(fig_ind,ind_ctrl, ind_adhd,RT_pars_fit)
     
@@ -200,11 +195,11 @@ if supp_plots
     fig_ind = 15;
     plot_RT_iqr(fig_ind, ind_ctrl, ind_adhd, rt_iqr)
     
-    %stim distributions
+    % stim distributions
     fig_ind = 16;
     plot_stim_distr(fig_ind,stims_cond_all, cond_list)
     
-    %psych curves model comparison
+    % psych curves model comparison
     fig_ind = 17;
     plot_psych_curves_model_comp(fig_ind,curr_dir, params, stims_cond_all, resp_cond_all, cond_list)
     
@@ -223,20 +218,19 @@ mydata.ACDS = ACDS';
 mydata.RT = mean(squeeze(rt_med_iqr(:,:,2)),2);
 mydata.RT_tau = mean(exp(squeeze(RT_pars_fit(:,1,:,3))),2);
 
-mydata.ib = mean(irrel_buttons, 2);
+mydata.timo = mean(TIMO, 2);
 mydata.sigma = mean(param(:,:,2),2);
 mydata.lapse = mean(param(:,:,3),2);
 
 nm = 7;
 measures = {'log TIMO', 'log RT median ', 'log RT \tau ', 'log Perceptual variability ', 'log Lapse ', 'GEC','ACDS'};
 
-data_all = [ mydata.ib mydata.RT mydata.RT_tau ...
+data_all = [ mydata.timo mydata.RT mydata.RT_tau ...
     mydata.sigma mydata.lapse mydata.GEC mydata.ACDS];
 %Spearman correlation robust to log
 
-%exp GEC such that logging would get it back to normal
+%exp GEC and ACDS such that logging would get it back to original values
 data_all(:,6) = exp(data_all(:,6));
-%same for ACDS
 data_all(:,7) = exp(data_all(:,7));
 
 %% logistic regression classifier fig
@@ -258,8 +252,7 @@ if supp_plots
     % learning across time
     fig_ind = 19;
     plot_learning(fig_ind, ind_ctrl, ind_adhd, cond_list)
-    
-    
+      
     % check effect of eye tracking
     fig_ind = 20;
     plot_eye_vs_no_eye(fig_ind, eye_tr,data_all)
@@ -270,7 +263,7 @@ if supp_plots
     
     % params by cond
     fig_ind = 32; 
-    plot_params_cond(fig_ind,irrel_buttons,rt_med_iqr,rt_tau, param, cond_list)
+    plot_params_cond(fig_ind,TIMO,rt_med_iqr,rt_tau, param, cond_list)
     
 end
 
@@ -279,9 +272,9 @@ end
 
 %% three way mixed design ANOVA --really nested 2 way repeated measures anova here
 % actual three way mixed design anova implemented in SPSS
-%% sigma and Irrel Buttons and rt, rt_tau
+%% sigma and Irrel Buttons/TIMO and rt, rt_tau
 vals = squeeze(param(1:40,1:4,2)); %choose sigma, 40* 4
-%vals = irrel_buttons; vals(vals<0.001) = 0.001;
+%vals = TIMO; vals(vals<0.001) = 0.001;
 %vals = rts;
 %vals = rt_tau;
 
@@ -289,7 +282,7 @@ three_way_mixed_design_anova(vals)
 %% two way mixed design anova - really nested one way repeated measure anova here
 %% mu or lambda
 
-%vals = squeeze(param(1:40,1,[1 3]));
+% vals = squeeze(param(1:40,1,[1 3]));
 % do not log since mu also takes neg values
 
 % lambda
