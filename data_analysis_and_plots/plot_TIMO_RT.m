@@ -1,4 +1,4 @@
-function plot_TIMO_RT(fig_ind, ind_ctrl, ind_adhd, irrel_buttons, rt_med_iqr, rt_tau, rt_distrib)
+function plot_TIMO_RT(fig_ind, ind_ctrl, ind_adhd, TIMO, rt_med_iqr, rt_tau, rt_distrib)
 
 
 marginsa1=[0.1 0.12 0.26 0.13]; %left right bottom top
@@ -34,17 +34,17 @@ for par = 1: size(rt_distrib,1)
 
 end
 
-irrel_buttons_m_ctrl=median(irrel_buttons(ind_ctrl,:),1);
-irrel_buttons_m_adhd=median(irrel_buttons(ind_adhd,:),1);
+TIMO_m_ctrl=median(TIMO(ind_ctrl,:),1);
+TIMO_m_adhd=median(TIMO(ind_adhd,:),1);
 
 sample=[];
 sample2=[];
 for kk=1:nboot
     for jj=1:4
-        sample=randsample(irrel_buttons(ind_ctrl,jj),length(ind_ctrl),1);
+        sample=randsample(TIMO(ind_ctrl,jj),length(ind_ctrl),1);
         IB_ctrl(kk,jj)=median(sample);
         
-        sample2=randsample(irrel_buttons(ind_adhd,jj),length(ind_adhd),1);
+        sample2=randsample(TIMO(ind_adhd,jj),length(ind_adhd),1);
         IB_adhd(kk,jj)=median(sample2);
     end
 end
@@ -62,9 +62,9 @@ for jj=1:4
     
     ii=bar_ind_ctrl(jj);
     ij=2*(jj-1)+1; %colormat ind
-    h(ii)=bar(ii,irrel_buttons_m_ctrl(jj)); hold on;
+    h(ii)=bar(ii,TIMO_m_ctrl(jj)); hold on;
     set(h(ii), 'FaceColor', colormat(ij,:), 'EdgeColor',colormat(ij,:))
-    he(ii)=errorbar(ii,irrel_buttons_m_ctrl(jj), irrel_buttons_m_ctrl(jj)-bci_ib_ctrl(1,jj),bci_ib_ctrl(2,jj)-irrel_buttons_m_ctrl(jj) ); hold on;
+    he(ii)=errorbar(ii,TIMO_m_ctrl(jj), TIMO_m_ctrl(jj)-bci_ib_ctrl(1,jj),bci_ib_ctrl(2,jj)-TIMO_m_ctrl(jj) ); hold on;
     %set(he(ii), 'Color', colormat(ij,:), 'Linewidth', 1)
     set(he(ii), 'Color', 'k', 'Linewidth', 1)
     errorbarT(he(ii),eb_w,eb_t)
@@ -75,9 +75,9 @@ end
 for jj=1:4
     ii=bar_ind_adhd(jj);
     ij=2*jj; %colormat ind
-    h(ii)=bar(ii,irrel_buttons_m_adhd(jj)); hold on;
+    h(ii)=bar(ii,TIMO_m_adhd(jj)); hold on;
     set(h(ii), 'FaceColor', colormat(ij,:), 'EdgeColor',colormat(ij,:))
-    he(ii)=errorbar(ii,irrel_buttons_m_adhd(jj), irrel_buttons_m_adhd(jj)-bci_ib_adhd(1,jj),bci_ib_adhd(2,jj)-irrel_buttons_m_adhd(jj) ); hold on;
+    he(ii)=errorbar(ii,TIMO_m_adhd(jj), TIMO_m_adhd(jj)-bci_ib_adhd(1,jj),bci_ib_adhd(2,jj)-TIMO_m_adhd(jj) ); hold on;
     %set(he(ii), 'Color', colormat(ij,:), 'Linewidth', 1)
     set(he(ii), 'Color', 'k', 'Linewidth', 1)
     errorbarT(he(ii),eb_w,eb_t)
