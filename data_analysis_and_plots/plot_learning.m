@@ -44,29 +44,6 @@ marginsa1=[0.1 0.12 0.26 0.13]; %left right bottom top
 guttera1=[0.07 0.14]; % btwn cols, btwn rows
 
 tight_subplot(2,1,1,1, guttera1, marginsa1)
-for i = 1:20
-    for ci = 1:4
-        plot([bar_ind_ctrl(2*ci-1), bar_ind_ctrl(2*ci)], [sigmas_M2_halves(i,ind_map(2*ci-1)), sigmas_M2_halves(i,ind_map(2*ci))], 'Color', bluee); hold on;
-        
-    end
-end
-
-for i = 21:40
-    for ci = 1:4
-        plot([bar_ind_adhd(2*ci-1), bar_ind_adhd(2*ci)], [sigmas_M2_halves(i,ind_map(2*ci-1)), sigmas_M2_halves(i,ind_map(2*ci))], 'Color', redd); hold on;
-    end
-end
-box off
-xlim([0.5 18.5])
-ylim([0 0.2])
-
-set(gca,'tickdir', 'out')
-set(gca, 'ticklength', [0.01 0.01])
-set(gca, 'xtick', (bar_ind_ctrl(2:end) + bar_ind_adhd(1:(end-1)))/2)
-set(gca, 'xticklabels', {})
-
-
-tight_subplot(2,1,2,1, guttera1, marginsa1)
 for ci = 1:4
     bar(bar_ind_ctrl(2*ci-1), median(sigmas_M2_halves(1:20,ind_map(2*ci-1))), 'FaceColor', bluee, 'EdgeColor',bluee, 'BarWidth',0.6); hold on;
     bar(bar_ind_ctrl(2*ci), median(sigmas_M2_halves(1:20,ind_map(2*ci))), 'FaceColor', bluee, 'EdgeColor',bluee, 'BarWidth',0.6); hold on;
@@ -95,13 +72,43 @@ for ci = 1:4
 end
 box off
 xlim([0.5 18.5])
-ylim([0 0.2])
+ylim([0 0.16])
 set(gca,'tickdir', 'out')
 set(gca, 'ticklength', [0.01 0.01])
 set(gca, 'xtick', (bar_ind_ctrl(2:end) + bar_ind_adhd(1:(end-1)))/2)
 set(gca, 'xticklabels', {})
+set(gca, 'ytick',[0:0.025:0.125])
+set(gca, 'yticklabels',{'0','','0.05','','0.1',''},'Fontname', 'Helvetica', 'FontSize', 0.8*fontsz)
+
+
+
+tight_subplot(2,1,2,1, guttera1, marginsa1)
+for i = 1:20
+    for ci = 1:4
+        plot([bar_ind_ctrl(2*ci-1), bar_ind_ctrl(2*ci)], [log(sigmas_M2_halves(i,ind_map(2*ci-1))), log(sigmas_M2_halves(i,ind_map(2*ci)))], 'Color', bluee); hold on;
+        
+    end
+end
+
+for i = 21:40
+    for ci = 1:4
+        plot([bar_ind_adhd(2*ci-1), bar_ind_adhd(2*ci)], [log(sigmas_M2_halves(i,ind_map(2*ci-1))), log(sigmas_M2_halves(i,ind_map(2*ci)))], 'Color', redd); hold on;
+    end
+end
+box off
+xlim([0.5 18.5])
+ylim([-6.5 -0.4])
+
+set(gca,'tickdir', 'out')
+set(gca, 'ticklength', [0.01 0.01])
+set(gca, 'xtick', (bar_ind_ctrl(2:end) + bar_ind_adhd(1:(end-1)))/2)
+set(gca, 'xticklabels', {})
+set(gca, 'ytick',[-7:1:0])
+set(gca, 'yticklabels',{'-7','','-5','','-3','','-1'},'FontName', 'Helvetica', 'FontSize', 0.8*fontsz)
+
+
 for ci = 1:4
-    text(bar_ind_ctrl(2*ci)+0.2, -0.03, cond_list{ci}, 'FontName', 'Helvetica', 'FontSize', fontsz)
+    text(bar_ind_ctrl(2*ci)+0.2, -8.03, cond_list{ci}, 'FontName', 'Helvetica', 'FontSize', fontsz)
 end
 
 %%
