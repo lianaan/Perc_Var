@@ -1,7 +1,7 @@
 # Perceptual variability and executive function
  The code in this repository accompanies the following publication: 
  
- [Mihali, A, Young, AG, Adler, L, Halassa, MM, Ma, WJ. A low-level perceptual correlate of behavioral and clinical deficits in ADHD.](https://www.mitpressjournals.org/doi/abs/10.1162/cpsy_a_00018)
+ [Mihali, A, Young, AG, Adler, L, Halassa, MM, Ma, WJ. A low-level perceptual correlate of behavioral and clinical deficits in ADHD. 2018, Computational Psychiatry](https://www.mitpressjournals.org/doi/abs/10.1162/cpsy_a_00018)
 ## Experiment : Visuo-motor decision-making with task-switching
 
 ## Data format
